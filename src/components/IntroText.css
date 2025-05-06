@@ -1,0 +1,67 @@
+
+svg[height='0'] {
+	position: absolute
+}
+:root {
+  --skip: 240deg;     
+  --slice: 60deg;     
+}
+.container {
+  padding-top: 15vi;
+  justify-content: center;
+  align-items: center;
+}            
+.wrapper {
+  align-items: center;
+  display: flex;
+  width: 90vw;
+  height: 100vh;
+}
+@property --k {
+	syntax: '<number>';
+	initial-value: 0;
+	inherits: false
+}
+
+#coolText {
+	--k: 0;
+  background: linear-gradient(
+    90deg,
+    hsl(
+      calc(var(--k) * var(--slice) + var(--skip)),
+      95%,
+      65%
+    ),
+    hsl(
+      calc(var(--k) * var(--slice) + var(--skip) + 90deg),
+      95%,
+      65%
+    )
+  );
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+  filter: url(#f);
+  animation: k 30s linear infinite
+}
+h1 {
+  padding-top: 5vh;
+  color: white;
+  text-align: center;
+	font: 800 clamp(.875em, 7.25vw, 5em) arial black, sans-serif;
+	text-transform: uppercase;
+}
+@keyframes k {
+	to {
+		--k: 1
+	}
+}
+/* --- axis switch, no pixel break-points --- */
+@media (orientation: portrait) {     /* phone held upright              */
+  .wrapper { flex-direction: column; } /* main axis vertical              */
+}
+
+@media (orientation: landscape) {    /* tablet / desktop screen         */
+  .wrapper  { flex-direction: row; }    /* main axis horizontal            */
+  .container { width: 50%;   height: 100%; }  /* half width, full height     */
+}
