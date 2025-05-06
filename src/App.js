@@ -1,81 +1,42 @@
-import './App.css';
-import IntroText from './components/IntroText'
-import BusinessCardScene from './components/BusinessCardScene'
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React from 'react';
+import { BrowserRouter, Routes, Route, Outlet, useLocation } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion'
 
-function App() {
+import './App.css';
+import HomePage from './pages/HomePage'
+import CoolStuffPage from './pages/CoolStuffPage'
+
+function Layout() {
+  const location = useLocation();
+
   return (
     <div className="App">
-      <div className="wrapper">
-        <div className="container">
-          <div className="topnav">
-            <GlowButton>COOL STUFF</GlowButton>
-            <GlowButton>WORK STUFF</GlowButton>
-            <GlowButton>DOWNLOAD</GlowButton>
-          </div>
-          <IntroText />
-        </div>
-        <BusinessCardScene />
-      </div>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={location.pathname}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.4 }}
+        >
+          <Outlet />
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }
 
-export default App;
-
-const GlowButton = ({ children, onClick }) => {
-  const [offsetWidth, setOffsetWidth] = useState(0);
-  const [offsetHeight, setOffsetHeight] = useState(0);
-
-  const [translateX, setTranslateX] = useState("-40%");
-  const [translateY, setTranslateY] = useState("-30%");
-
-  const buttonRef = useRef(null);
-
-  const getPosition = () => {
-    if (buttonRef.current) {
-      setOffsetWidth(buttonRef.current.offsetWidth);
-      setOffsetHeight(buttonRef.current.offsetHeight);
-    }
-  };
-
-  useEffect(() => {
-    getPosition();
-  }, []);
-
-  const onMove = (e) => {
-    if (buttonRef.current) {
-      const { pageX, pageY } = e;
-
-      const rect = buttonRef.current.getBoundingClientRect();
-
-      setTranslateX(`${pageX - rect.left - window.scrollX - offsetWidth / 2}px`);
-      setTranslateY(`${pageY - rect.top - window.scrollY - offsetHeight / 2}px`);
-    }
-  };
-
-  const styleValue = useMemo(
-    () => ({
-      transform: `translate(${translateX}, ${translateY})`,
-    }),
-    [translateX, translateY]
-  );
-
+function App() {
   return (
-    <button
-      className="glow-button"
-      onClick={onClick}
-      onPointerMove={onMove}
-      ref={buttonRef}
-    >
-      {children}
-      <div className="glow-button__glow">
-        <div className="glow-button__glow-light" style={styleValue} />
-      </div>
-
-      <div className="glow-button__border">
-        <div className="glow-button__border-light" style={styleValue} />
-      </div>
-    </button>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<HomePage />} />
+          <Route path="cool" element={<CoolStuffPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
-};
+}
+
+export default App;
