@@ -1,12 +1,16 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import './MenuButton.css';
-const MenuButton = ({ children, to }) => {
+
+const MenuButton = ({ children, to, onClick, defaultActive = false }) => {
   const [offsetWidth, setOffsetWidth] = useState(0);
   const [offsetHeight, setOffsetHeight] = useState(0);
 
   const [translateX, setTranslateX] = useState("-40%");
   const [translateY, setTranslateY] = useState("-30%");
+
+  // Add a state to track if we should show the active state
+  const [showActive, setShowActive] = useState(defaultActive);
 
   const buttonRef = useRef(null);
 
@@ -39,19 +43,30 @@ const MenuButton = ({ children, to }) => {
     [translateX, translateY]
   );
 
+  // Apply special active background only when defaultActive is true and not hovering
+  const buttonStyle = useMemo(() => {
+    return showActive ? {
+      background: "radial-gradient(circle farthest-corner at 10% 20%, rgba(255, 94, 247, 1) 17.8%, rgba(2, 245, 255, 1) 100.2%)"
+    } : {};
+  }, [showActive]);
+
   const navigate = useNavigate();
 
   const handleClick = () => {
     navigate(to);
   };
 
+  const hasOnClick = typeof onClick === 'function';
 
   return (
     <button
       className="glow-button"
-      onClick={handleClick}
+      onClick={hasOnClick ? onClick : handleClick}
       onPointerMove={onMove}
       ref={buttonRef}
+      style={buttonStyle}
+      onMouseEnter={() => setShowActive(false)}
+      onMouseLeave={() => setShowActive(defaultActive)}
     >
       {children}
       <div className="glow-button__glow">
