@@ -13,8 +13,8 @@ const GlassmorphicCarousel = () => {
   const slides = [
     {
       id: 1,
-      title: "!React - TODO app",
-      content: "I was trying to build a TODO app in React. `node_modules` took a thousand mbs on the disk. I wrote a js module that performs routing, state management, nesting in 69 lines of code. ",
+      title: "!React - Dashboard",
+      content: "I was trying to build a dashboard in React and noticed th and noticed thatt `node_modules` consumed about a thousand mbs on disk. So I wrote a js module that performs routing, state management and nesting, all in 69 lines of code. Here it is in action.",
       image: "/assets/notreact.png"
     },
     {
@@ -59,10 +59,14 @@ const GlassmorphicCarousel = () => {
               className={`carousel-slide ${index === currentSlide ? 'active' : ''}`}
             >
               <div className="slide-content">
-                <h2>{slide.title}</h2>
-                <p>{slide.content}</p>
-                <MenuButton>Visit Project</MenuButton>
-                <img src="http://localhost:3001/assets/notreact.png" />
+                <div className="slide-content-text">
+                  <h2>{slide.title}</h2>
+                  <p>{slide.content}</p>
+                  <MenuButton>Visit Project</MenuButton>
+                </div>
+                <div className="slide-content-image">
+                  <img src="http://localhost:3001/assets/notreact.png" alt={slide.title} />
+                </div>
               </div>
             </div>
           ))}
@@ -71,7 +75,6 @@ const GlassmorphicCarousel = () => {
         {/* Navigation and dots */}
         <div className="carousel-navigation">
           {/* Previous button with the glow button style */}
-
           <MenuButton onClick={prevSlide} defaultActive={true}>
             <IoArrowBack size={24} />
           </MenuButton>
