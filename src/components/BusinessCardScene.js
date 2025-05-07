@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Text3D, useTexture } from '@react-three/drei';
 import * as THREE from 'three';
@@ -48,8 +48,27 @@ function CardMesh() {
       extrudeMaterial: 1,
     });
   }, []);
+
   const ref = React.useRef();
-  const logoTex = useTexture('/assets/abstract.png');
+
+  // Handle texture loading with error handling
+  const [logoTexture, setLogoTexture] = useState(null);
+  const [textureError, setTextureError] = useState(false);
+
+  useEffect(() => {
+    const textureLoader = new THREE.TextureLoader();
+    textureLoader.load(
+      '/assets/abstract.png',
+      (texture) => {
+        setLogoTexture(texture);
+      },
+      undefined,
+      (error) => {
+        console.error('Error loading texture:', error);
+        setTextureError(true);
+      }
+    );
+  }, []);
 
   useFrame(({ clock }) => {
     if (ref.current) ref.current.rotation.z = Math.sin(clock.elapsedTime * 0.3) * 0.025;
@@ -58,10 +77,20 @@ function CardMesh() {
   return (
     <group ref={ref}>
       <mesh geometry={geometry} material={[faceMat, edgeMat]} />
-      <mesh position={[0, 1.6, 0.05]} >
-        <planeGeometry args={[2.58, 1]} />
-        <meshPhysicalMaterial map={logoTex} metalness={0.3} roughness={0.7} transparent />
-      </mesh>
+
+      {logoTexture && (
+        <mesh position={[0, 1.6, 0.05]}>
+          <planeGeometry args={[2.58, 1]} />
+          <meshPhysicalMaterial map={logoTexture} metalness={0.3} roughness={0.7} transparent />
+        </mesh>
+      )}
+
+      {textureError && (
+        <mesh position={[0, 1.6, 0.05]}>
+          <planeGeometry args={[2.58, 1]} />
+          <meshPhysicalMaterial color="#333" metalness={0.3} roughness={0.7} />
+        </mesh>
+      )}
 
       <React.Suspense fallback={null}>
         {/* Embossed Title */}
@@ -105,7 +134,6 @@ function CardMesh() {
           position={[-0.5, -0.1, 0.036]}
           rotation={[0, 0, 0]}
         >
-
           SOFTWARE DEVELOPER
           <meshPhysicalMaterial attach="material" color="#ffffff" roughness={1} />
         </Text3D>
@@ -129,8 +157,6 @@ function CardMesh() {
           charitraarora@gmail.com
           <meshPhysicalMaterial attach="material" color="#ffffff" roughness={1} />
         </Text3D>
-
-
       </React.Suspense>
     </group>
   );
@@ -164,29 +190,45 @@ function Lights() {
   );
 }
 
-
 export default function CardShowcase({ onLoaded }) {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const canvasRef = useRef(null);
+
+  // Signal when card is fully loaded
   useEffect(() => {
-    if (onLoaded) {
-      // delay slightly to simulate loading finish
-      const timer = setTimeout(() => onLoaded(), 500);
-      return () => clearTimeout(timer);
-    }
+    // Delay indicating loaded state to ensure proper rendering
+    const timer = setTimeout(() => {
+      setIsLoaded(true);
+      if (onLoaded) {
+        onLoaded();
+      }
+    }, 500);
+
+    return () => clearTimeout(timer);
   }, [onLoaded]);
 
   return (
-    <Canvas style={styles.canvas} shadows camera={{ position: [0, 0, 7], fov: 40 }}>
-      <CardMesh />
-      <Lights />
-      <OrbitControls enablePan={false} enableZoom={false} autoRotate autoRotateSpeed={0.15} />
-    </Canvas>
+    <div ref={canvasRef} style={{ width: '100%', height: '100vh', position: 'relative' }}>
+      <Canvas
+        style={{
+          width: "100%",
+          height: "100%",
+          background: 'transparent',
+          opacity: isLoaded ? 1 : 0,
+          transition: 'opacity 0.5s ease'
+        }}
+        shadows
+        camera={{ position: [0, 0, 7], fov: 40 }}
+      >
+        <CardMesh />
+        <Lights />
+        <OrbitControls
+          enablePan={false}
+          enableZoom={false}
+          autoRotate={true}
+          autoRotateSpeed={0.15}
+        />
+      </Canvas>
+    </div>
   );
 }
-
-const styles = {
-  canvas: {
-    width: "100vw",
-    height: "100vh",
-    background: 'transparent',
-  },
-};
