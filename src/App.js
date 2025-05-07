@@ -5,7 +5,8 @@ import { AnimatePresence, motion } from 'framer-motion'
 import './App.css';
 import HomePage from './pages/HomePage'
 import CoolStuffPage from './pages/CoolStuffPage'
-import GlobalBackground from './components/HaloBackground.js';
+import GlobalBackground from './components/HaloBackground'; // Import the new component
+
 function Layout() {
   const location = useLocation();
 

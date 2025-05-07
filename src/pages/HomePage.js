@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 import IntroText from '../components/IntroText';
 import MenuBar from '../components/MenuBar';
-import { VantaContext } from '../components/HaloBackground';
 
 // Lazy load the CardShowcase component with error handling
 const CardShowcase = lazy(() =>
@@ -20,8 +19,6 @@ function HomePage() {
   const [cardVisible, setCardVisible] = useState(false);
   const [cardLoaded, setCardLoaded] = useState(false);
 
-  // Get the Vanta context to control when the effect starts
-  const vantaContext = useContext(VantaContext);
 
   // Start the animation sequence when component mounts
   useEffect(() => {
@@ -41,18 +38,6 @@ function HomePage() {
       clearTimeout(cardTimer);
     };
   }, []);
-
-  // Enable Vanta effect after card is loaded
-  useEffect(() => {
-    if (cardLoaded && vantaContext) {
-      // Add a small delay to ensure smooth transition
-      const vantaTimer = setTimeout(() => {
-        vantaContext.enable();
-      }, 800);
-
-      return () => clearTimeout(vantaTimer);
-    }
-  }, [cardLoaded, vantaContext]);
 
   // Handle card load completion
   const handleCardLoaded = () => {
