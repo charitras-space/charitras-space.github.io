@@ -13,9 +13,9 @@ const GlassmorphicCarousel = () => {
   const slides = [
     {
       id: 1,
-      title: "Welcome to the Vanta Carousel",
-      content: "A beautiful glassmorphic carousel with a mesmerizing Vanta.js halo background effect.",
-      image: "/images/slide1.jpg" // Update with your image paths
+      title: "!React - TODO app",
+      content: "I was trying to build a TODO app in React. `node_modules` took a thousand mbs on the disk. I wrote a js module that performs routing, state management, nesting in 69 lines of code. ",
+      image: "/assets/notreact.png"
     },
     {
       id: 2,
@@ -61,7 +61,8 @@ const GlassmorphicCarousel = () => {
               <div className="slide-content">
                 <h2>{slide.title}</h2>
                 <p>{slide.content}</p>
-                <img src={slide.image} alt={slide.title} />
+                <MenuButton>Visit Project</MenuButton>
+                <img src="http://localhost:3001/assets/notreact.png" />
               </div>
             </div>
           ))}

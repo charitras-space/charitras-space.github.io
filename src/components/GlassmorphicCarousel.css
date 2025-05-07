@@ -54,7 +54,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 2rem;
 }
 
 .carousel-slide.active {
@@ -64,7 +63,6 @@
 
 /* Slide content */
 .slide-content {
-  max-width: 800px;
   text-align: center;
   color: white;
 }
@@ -76,8 +74,14 @@
 }
 
 .slide-content p {
+  padding-left: 2vi;
+  padding-right: 2vi;
+
+  padding-bottom: 3vi;
+  padding-top: 3vi;
+
+
   font-size: 1.25rem;
-  margin-bottom: 2rem;
 }
 
 .slide-content img {
@@ -101,6 +105,8 @@
   display: flex;
   justify-content: center;
   gap: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 .carousel-dot {
