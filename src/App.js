@@ -5,13 +5,13 @@ import { AnimatePresence, motion } from 'framer-motion'
 import './App.css';
 import HomePage from './pages/HomePage'
 import CoolStuffPage from './pages/CoolStuffPage'
-
+import GlobalBackground from './components/HaloBackground.js';
 function Layout() {
   const location = useLocation();
 
   return (
     <div className="App">
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={location.pathname}
           initial={{ opacity: 0, y: 20 }}
@@ -28,14 +28,19 @@ function Layout() {
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<HomePage />} />
-          <Route path="cool" element={<CoolStuffPage />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <>
+      {/* The background is rendered outside the animation context */}
+      <GlobalBackground />
+
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<HomePage />} />
+            <Route path="cool" element={<CoolStuffPage />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 

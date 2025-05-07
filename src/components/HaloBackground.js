@@ -1,27 +1,35 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import HALO from 'vanta/dist/vanta.halo.min.js';
 
-export default function HaloBackground({ children }) {
+// This component will be mounted once at the app level
+// outside of the animation context
+export default function GlobalBackground() {
   const vantaRef = useRef(null);
-  const [vantaEffect, setVantaEffect] = useState(null);
 
   useEffect(() => {
-    if (!vantaEffect) {
-      const effect = HALO({
-        el: vantaRef.current,
-        THREE,
-        mouseControls: true,
-        touchControls: true,
-        gyroControls: false,
-      });
-      setVantaEffect(effect);
-    }
+    let effect = null;
+
+    // Small timeout to ensure DOM is ready
+    const timer = setTimeout(() => {
+      if (vantaRef.current) {
+        effect = HALO({
+          el: vantaRef.current,
+          THREE,
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          forceAnimate: true,
+          backgroundColor: 0x0b0d13
+        });
+      }
+    }, 100);
 
     return () => {
-      if (vantaEffect) vantaEffect.destroy();
+      clearTimeout(timer);
+      if (effect) effect.destroy();
     };
-  }, [vantaEffect]);
+  }, []);
 
   return (
     <div
@@ -32,10 +40,9 @@ export default function HaloBackground({ children }) {
         left: 0,
         width: '100vw',
         height: '100vh',
-        zIndex: -1, // puts it behind your content
+        zIndex: -1,
+        pointerEvents: 'none'
       }}
-    >
-      {children}
-    </div>
+    />
   );
 }

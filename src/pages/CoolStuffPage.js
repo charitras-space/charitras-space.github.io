@@ -1,11 +1,11 @@
-import HaloBackground from '../components/HaloBackground';
+import React from 'react';
 import './CoolStuffPage.css';
-import GlassmorphicCarousel from '../components/GlassmorphicCarousel'
+import GlassmorphicCarousel from '../components/GlassmorphicCarousel';
 
 export default function CoolStuffPage() {
   return (
-    <HaloBackground children={
+    <div className="cool-stuff-page" style={{ width: '100vw', height: '100vh' }}>
       <GlassmorphicCarousel />
-    } />
+    </div>
   );
 }
