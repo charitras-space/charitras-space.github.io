@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { useEffect, useState, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Text3D, useTexture } from '@react-three/drei';
+import { OrbitControls, Text3D } from '@react-three/drei';
 import * as THREE from 'three';
 
-function CardMesh() {
+function CardMesh({ onMeshLoaded }) {
   const faceMat = React.useMemo(
     () =>
       new THREE.MeshPhysicalMaterial({
@@ -51,7 +51,6 @@ function CardMesh() {
 
   const ref = React.useRef();
 
-  // Handle texture loading with error handling
   const [logoTexture, setLogoTexture] = useState(null);
   const [textureError, setTextureError] = useState(false);
 
@@ -61,14 +60,20 @@ function CardMesh() {
       '/assets/abstract.png',
       (texture) => {
         setLogoTexture(texture);
+        if (onMeshLoaded) {
+          onMeshLoaded();
+        }
       },
       undefined,
       (error) => {
         console.error('Error loading texture:', error);
         setTextureError(true);
+        if (onMeshLoaded) {
+          onMeshLoaded();
+        }
       }
     );
-  }, []);
+  }, [onMeshLoaded]);
 
   useFrame(({ clock }) => {
     if (ref.current) ref.current.rotation.z = Math.sin(clock.elapsedTime * 0.3) * 0.025;
@@ -93,7 +98,6 @@ function CardMesh() {
       )}
 
       <React.Suspense fallback={null}>
-        {/* Embossed Title */}
         <Text3D
           font="https://threejs.org/examples/fonts/helvetiker_regular.typeface.json"
           size={0.4}
@@ -112,9 +116,6 @@ function CardMesh() {
             envMapIntensity={0.5}
           />
         </Text3D>
-        {/* Business Details */}
-        {/* Business Details (horizontal) */}
-        {/* Business Info Left */}
         <Text3D
           font="https://threejs.org/examples/fonts/helvetiker_bold.typeface.json"
           size={0.1}
@@ -125,8 +126,6 @@ function CardMesh() {
           CHARITRA ARORA
           <meshPhysicalMaterial attach="material" color="#ffffff" roughness={1} />
         </Text3D>
-
-        {/* Contact Info Right */}
         <Text3D
           font="https://threejs.org/examples/fonts/helvetiker_regular.typeface.json"
           size={0.07}
@@ -166,7 +165,6 @@ function Lights() {
   return (
     <>
       <ambientLight intensity={0.5} />
-      {/* Warm key light */}
       <spotLight
         color="#ffd166"
         position={[5, 6, 5]}
@@ -175,7 +173,6 @@ function Lights() {
         intensity={1.8}
         castShadow
       />
-      {/* Cool rim light */}
       <directionalLight
         color="#ffffff"
         position={[-5, 4, 23]}
@@ -194,17 +191,11 @@ export default function CardShowcase({ onLoaded }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const canvasRef = useRef(null);
 
-  // Signal when card is fully loaded
-  useEffect(() => {
-    // Delay indicating loaded state to ensure proper rendering
-    const timer = setTimeout(() => {
-      setIsLoaded(true);
-      if (onLoaded) {
-        onLoaded();
-      }
-    }, 500);
-
-    return () => clearTimeout(timer);
+  const handleMeshLoaded = React.useCallback(() => {
+    setIsLoaded(true);
+    if (onLoaded) {
+      onLoaded();
+    }
   }, [onLoaded]);
 
   return (
@@ -220,7 +211,7 @@ export default function CardShowcase({ onLoaded }) {
         shadows
         camera={{ position: [0, 0, 7], fov: 40 }}
       >
-        <CardMesh />
+        <CardMesh onMeshLoaded={handleMeshLoaded} />
         <Lights />
         <OrbitControls
           enablePan={false}

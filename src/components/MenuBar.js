@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { IoArrowBack } from 'react-icons/io5';        //  npm i react-icons  (1 kB gzip)
+import { IoArrowBack } from 'react-icons/io5';
 import MenuButton from './MenuButton';
 import './MenuBar.css';
 

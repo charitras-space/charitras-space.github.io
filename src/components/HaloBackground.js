@@ -1,39 +1,48 @@
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import HALO from 'vanta/dist/vanta.halo.min.js';
+import { motion } from 'framer-motion'; // Import motion
 
-// This component will be mounted once at the app level
-// outside of the animation context
-export default function GlobalBackground() {
-  const vantaRef = useRef(null);
+export default function GlobalBackground({ activate = false }) {
+  const vantaRef = useRef(null); // For the DOM element
+  const vantaEffectRef = useRef(null); // To store the Vanta effect instance
 
   useEffect(() => {
-    let effect = null;
-
-    // Small timeout to ensure DOM is ready
-    const timer = setTimeout(() => {
-      if (vantaRef.current) {
-        effect = HALO({
+    if (activate) {
+      if (!vantaEffectRef.current && vantaRef.current) {
+        const effect = HALO({
           el: vantaRef.current,
           THREE,
           mouseControls: true,
           touchControls: true,
           gyroControls: false,
           forceAnimate: true,
-          backgroundColor: 0x0b0d13
+          backgroundColor: 0x0b0d13,
+          // Add any other specific HALO configurations here
         });
+        vantaEffectRef.current = effect;
       }
-    }, 100);
+    } else {
+      if (vantaEffectRef.current) {
+        vantaEffectRef.current.destroy();
+        vantaEffectRef.current = null;
+      }
+    }
 
     return () => {
-      clearTimeout(timer);
-      if (effect) effect.destroy();
+      if (vantaEffectRef.current) {
+        vantaEffectRef.current.destroy();
+        vantaEffectRef.current = null;
+      }
     };
-  }, []);
+  }, [activate, vantaRef]);
 
   return (
-    <div
+    <motion.div
       ref={vantaRef}
+      initial={{ opacity: 0 }} // Start with opacity 0
+      animate={{ opacity: activate ? 1 : 0 }} // Animate to 1 if active, else 0
+      transition={{ duration: 1.5, ease: "easeInOut" }} // Adjust duration/ease as needed
       style={{
         position: 'fixed',
         top: 0,
@@ -41,7 +50,7 @@ export default function GlobalBackground() {
         width: '100vw',
         height: '100vh',
         zIndex: -1,
-        pointerEvents: 'none'
+        pointerEvents: 'none',
       }}
     />
   );
