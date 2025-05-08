@@ -175,11 +175,6 @@ function Lights() {
       />
       <directionalLight
         color="#ffffff"
-        position={[-5, 4, 23]}
-        intensity={0.2}
-      />
-      <directionalLight
-        color="#ffffff"
         position={[8, -6, 23]}
         intensity={0.2}
       />
@@ -197,6 +192,23 @@ export default function CardShowcase({ onLoaded }) {
       onLoaded();
     }
   }, [onLoaded]);
+
+  // Add window resize listener to handle responsive adjustments
+  useEffect(() => {
+    const handleResize = () => {
+      // Force canvas to re-render when window is resized
+      if (canvasRef.current) {
+        const canvas = canvasRef.current.querySelector('canvas');
+        if (canvas) {
+          canvas.style.width = '100%';
+          canvas.style.height = '100%';
+        }
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <div ref={canvasRef} style={{ width: '100%', height: '100vh', position: 'relative' }}>
@@ -221,5 +233,5 @@ export default function CardShowcase({ onLoaded }) {
         />
       </Canvas>
     </div>
-  );
-}
+  )
+}; 

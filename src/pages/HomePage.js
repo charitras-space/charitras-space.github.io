@@ -43,7 +43,7 @@ function HomePage() {
     if (cardLoaded) {
       const vantaActivationTimer = setTimeout(() => {
         setActivateVanta(true);
-      }, 200); 
+      }, 200);
       return () => clearTimeout(vantaActivationTimer);
     }
   }, [cardLoaded]);
