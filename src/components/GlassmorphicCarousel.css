@@ -4,7 +4,8 @@
 .carousel-wrapper {
   position: relative;
   width: 100%;
-  min-height: 100vh;
+  /* min-height: 100vh; */ /* Removed to allow flex-grow from parent */
+  flex-grow: 1; /* Allow wrapper to fill available space in its flex parent */
   display: flex;
   flex-direction: column;
   justify-content: flex-start; /* Align title to top */

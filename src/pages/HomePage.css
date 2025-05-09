@@ -20,6 +20,7 @@
 /* Responsive adjustments for HomePage */
 @media (max-width: 768px) {
   .home-page .wrapper { /* This is the main content area below the fixed MenuBar */
+    /* position: relative; */ /* Reverted */
     flex-direction: column; /* Default to column for mobile-first */
     align-items: center; /* Center items when stacked */
     padding-top: 140px; /* Further increased again for more space below MenuBar */
@@ -31,24 +32,29 @@
 
   .home-page .wrapper .intro-container, /* Updated class name */
   .home-page .wrapper .card-container {
+    /* position: relative; */ /* Reverted */
+    /* z-index: 10; */ /* Reverted */
     flex-basis: auto; /* Allow items to size based on content in column */
     width: 100%; /* Take full width when stacked */
     max-width: 600px; /* Optional: constrain width on mobile for very wide text/cards */
   }
 
-  .home-page .card-container {
-    min-height: 50vh; /* Ensure card area has some minimum height on mobile */
+  .home-page .card-container { /* This rule was outside .wrapper targeting */
+    min-height: 60vh; /* Increased min-height for card area on mobile */
   }
 }
 
 @media (max-width: 480px) {
   .home-page .wrapper {
-    padding: 0.5rem;
+    padding-top: 90px; /* Ensure enough space for fixed mobile menu toggle */
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-bottom: 0.5rem;
     gap: 0.5rem;
   }
    .home-page .wrapper .intro-container, /* Updated class name */
    .home-page .wrapper .card-container {
-    padding: 0.5rem;
+    padding: 0.5rem; /* Restored padding */
    }
 }
 /* Styles for fixed MenuBar on HomePage */

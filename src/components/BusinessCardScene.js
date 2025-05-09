@@ -4,7 +4,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Text3D } from "@react-three/drei";
 import * as THREE from "three";
 
-function CardMesh({ onMeshLoaded }) {
+function CardMesh({ onMeshLoaded, isMobile }) {
   const faceMat = React.useMemo(
     () =>
       new THREE.MeshPhysicalMaterial({
@@ -81,7 +81,7 @@ function CardMesh({ onMeshLoaded }) {
   });
 
   return (
-    <group ref={ref}>
+    <group ref={ref} position={[0, isMobile ? 0.8 : 0, 0]}>
       <mesh geometry={geometry} material={[faceMat, edgeMat]} />
 
       {logoTexture && (
@@ -211,6 +211,7 @@ function Lights() {
 
 export default function CardShowcase({ onLoaded }) {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isMobileLayout, setIsMobileLayout] = useState(false);
   const [cameraSettings, setCameraSettings] = useState({
     position: [0, 0, 7],
     fov: 40,
@@ -220,8 +221,9 @@ export default function CardShowcase({ onLoaded }) {
   useEffect(() => {
     const handleResize = () => {
       const isMobile = window.innerWidth < 768;
+      setIsMobileLayout(isMobile);
       setCameraSettings({
-        position: [0, 0, isMobile ? 9 : 7],
+        position: [0, isMobile ? 0.5 : 0, isMobile ? 8 : 7],
         fov: isMobile ? 50 : 40,
       });
     };
@@ -259,7 +261,7 @@ export default function CardShowcase({ onLoaded }) {
         shadows
         camera={cameraSettings}
       >
-        <CardMesh onMeshLoaded={handleMeshLoaded} />
+        <CardMesh onMeshLoaded={handleMeshLoaded} isMobile={isMobileLayout} />
         <Lights />
         <OrbitControls
           enablePan={false}

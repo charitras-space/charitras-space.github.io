@@ -94,7 +94,7 @@ export default function MenuBar() {
             animate="visible"
             exit="exit"
           >
-            <motion.div variants={itemVariants}>
+            <motion.div variants={itemVariants} style={{ width: "100%" }}>
               <MenuButton
                 className="menu-item"
                 to="/"
@@ -103,7 +103,7 @@ export default function MenuBar() {
                 HOME
               </MenuButton>
             </motion.div>
-            <motion.div variants={itemVariants}>
+            <motion.div variants={itemVariants} style={{ width: "100%" }}>
               <MenuButton
                 className="menu-item cool"
                 to="/cool"
@@ -112,7 +112,7 @@ export default function MenuBar() {
                 COOL STUFF
               </MenuButton>
             </motion.div>
-            <motion.div variants={itemVariants}>
+            <motion.div variants={itemVariants} style={{ width: "100%" }}>
               <MenuButton
                 className="menu-item work"
                 to="/work"
@@ -121,7 +121,7 @@ export default function MenuBar() {
                 WORK STUFF
               </MenuButton>
             </motion.div>
-            <motion.div variants={itemVariants}>
+            <motion.div variants={itemVariants} style={{ width: "100%" }}>
               <MenuButton
                 className="menu-item resume"
                 to="/resume"
