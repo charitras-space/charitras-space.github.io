@@ -1,11 +1,19 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route, Outlet, useLocation } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion'
+import React from "react";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Outlet,
+  useLocation,
+} from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 
-import './App.css';
-import HomePage from './pages/HomePage'
-import CoolStuffPage from './pages/CoolStuffPage'
-import GlobalBackground from './components/HaloBackground'; // Import the new component
+import "./App.css";
+import HomePage from "./pages/HomePage";
+import CoolStuffPage from "./pages/CoolStuffPage";
+import WorkStuffPage from "./pages/WorkStuffPage";
+import ResumePage from "./pages/ResumePage";
+import GlobalBackground from "./components/HaloBackground";
 
 function Layout() {
   const location = useLocation();
@@ -13,15 +21,7 @@ function Layout() {
   return (
     <div className="App">
       <AnimatePresence mode="wait" initial={false}>
-        <motion.div
-          key={location.pathname}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.4 }}
-        >
-          <Outlet />
-        </motion.div>
+        <Outlet />
       </AnimatePresence>
     </div>
   );
@@ -38,6 +38,10 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<HomePage />} />
             <Route path="cool" element={<CoolStuffPage />} />
+            <Route path="work" element={<WorkStuffPage />} />
+            <Route path="resume" element={<ResumePage />} />
+            {/* Add tempo routes conditionally if needed */}
+            {process.env.VITE_TEMPO === "true" && <Route path="/tempobook/*" />}
           </Route>
         </Routes>
       </BrowserRouter>

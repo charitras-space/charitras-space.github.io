@@ -1,34 +1,43 @@
-// components/GlassmorphicCarousel.jsx
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { IoArrowBack, IoArrowForward } from 'react-icons/io5';
-import './GlassmorphicCarousel.css';
-import MenuButton from './MenuButton';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { IoArrowBack, IoArrowForward } from "react-icons/io5";
+import { motion, AnimatePresence } from "framer-motion";
+import "./GlassmorphicCarousel.css";
+import MenuButton from "./MenuButton";
+import MenuBar from "./MenuBar";
 
 const GlassmorphicCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const navigate = useNavigate();
 
-  // Example slides
+  // Project slides
   const slides = [
     {
       id: 1,
-      title: "!React - Dashboard",
-      content: "I was trying to build a dashboard in React and noticed th and noticed thatt `node_modules` consumed about a thousand mbs on disk. So I wrote a js module that performs routing, state management and nesting, all in 69 lines of code. Here it is in action.",
-      image: "/assets/notreact.png"
+      title: "TempoLabs AI",
+      content:
+        "A revolutionary AI-powered web application that allows users to edit React codebases visually. Features include a canvas-based UI editor, real-time code synchronization, and an advanced AI agent with QA capabilities.",
+      image:
+        "https://images.unsplash.com/photo-1633356122102-3fe601e05bd2?w=800&q=80",
+      link: "https://tempo.new",
     },
     {
       id: 2,
-      title: "Responsive Design",
-      content: "This carousel adjusts its dimensions based on the device size for optimal viewing experience.",
-      image: "/images/slide2.jpg"
+      title: "!React Dashboard",
+      content:
+        "A lightweight alternative to React that performs routing, state management and component nesting in just 69 lines of code. Built for performance-critical applications where bundle size matters.",
+      image: "/assets/notreact.png",
+      link: "https://github.com/notreact",
     },
     {
       id: 3,
-      title: "Interactive Elements",
-      content: "Navigate with buttons or dots and experience the stunning glow effect on hover.",
-      image: "/images/slide3.jpg"
-    }
+      title: "3D Portfolio Visualizer",
+      content:
+        "An interactive 3D visualization tool that displays portfolio projects in an immersive environment. Built with Three.js and WebGL for a unique user experience.",
+      image:
+        "https://images.unsplash.com/photo-1633354089011-383776e36993?w=800&q=80",
+      link: "https://3d-portfolio.demo",
+    },
   ];
 
   // Navigate to previous slide
@@ -46,30 +55,63 @@ const GlassmorphicCarousel = () => {
     setCurrentSlide(index);
   };
 
+  // Open project link
+  const openProjectLink = (link) => {
+    window.open(link, "_blank");
+  };
+
   return (
-    <div className="carousel-wrapper">
+    <motion.div
+      className="carousel-wrapper"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <MenuBar />
+
+      <motion.h1
+        className="projects-title"
+        initial={{ y: -50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6 }}
+      >
+        Featured Projects
+      </motion.h1>
+
       {/* Glassmorphic carousel container */}
       <div className="glassmorphic-carousel-container">
         {/* Glassmorphic carousel */}
         <div className="glassmorphic-carousel">
           {/* Carousel slides */}
-          {slides.map((slide, index) => (
-            <div
-              key={slide.id}
-              className={`carousel-slide ${index === currentSlide ? 'active' : ''}`}
-            >
-              <div className="slide-content">
-                <div className="slide-content-text">
-                  <h2>{slide.title}</h2>
-                  <p>{slide.content}</p>
-                  <MenuButton>Visit Project</MenuButton>
-                </div>
-                <div className="slide-content-image">
-                  <img src="http://localhost:3001/assets/notreact.png" alt={slide.title} />
-                </div>
-              </div>
-            </div>
-          ))}
+          <AnimatePresence mode="wait">
+            {slides.map(
+              (slide, index) =>
+                index === currentSlide && (
+                  <motion.div
+                    key={slide.id}
+                    className="carousel-slide active"
+                    initial={{ opacity: 0, x: 100 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -100 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <div className="slide-content">
+                      <div className="slide-content-text">
+                        <h2>{slide.title}</h2>
+                        <p>{slide.content}</p>
+                        <MenuButton onClick={() => openProjectLink(slide.link)}>
+                          VIEW PROJECT
+                        </MenuButton>
+                      </div>
+                      <div className="slide-content-image">
+                        <img src={slide.image} alt={slide.title} />
+                      </div>
+                    </div>
+                  </motion.div>
+                ),
+            )}
+          </AnimatePresence>
         </div>
 
         {/* Navigation and dots */}
@@ -84,7 +126,7 @@ const GlassmorphicCarousel = () => {
             {slides.map((_, index) => (
               <button
                 key={index}
-                className={`carousel-dot ${index === currentSlide ? 'active' : ''}`}
+                className={`carousel-dot ${index === currentSlide ? "active" : ""}`}
                 onClick={() => goToSlide(index)}
                 aria-label={`Go to slide ${index + 1}`}
               />
@@ -96,21 +138,8 @@ const GlassmorphicCarousel = () => {
             <IoArrowForward size={24} />
           </MenuButton>
         </div>
-
-        {/* Home button */}
-        <div className="home-button-container">
-          <button
-            className="glow-button menu-item back-btn"
-            aria-label="Back to home"
-            onClick={() => navigate('/')}
-          >
-            <IoArrowBack size={24} />
-            <div className="glow-button__glow"></div>
-            <div className="glow-button__border"></div>
-          </button>
-        </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

@@ -1,14 +1,14 @@
-import * as React from 'react';
-import { useEffect, useState, useRef } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Text3D } from '@react-three/drei';
-import * as THREE from 'three';
+import * as React from "react";
+import { useEffect, useState, useRef } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { OrbitControls, Text3D } from "@react-three/drei";
+import * as THREE from "three";
 
 function CardMesh({ onMeshLoaded }) {
   const faceMat = React.useMemo(
     () =>
       new THREE.MeshPhysicalMaterial({
-        color: '#10121e',
+        color: "#10121e",
         metalness: 1,
         clearcoat: 1,
         clearcoatRoughness: 0.3,
@@ -19,7 +19,7 @@ function CardMesh({ onMeshLoaded }) {
   const edgeMat = React.useMemo(
     () =>
       new THREE.MeshPhysicalMaterial({
-        color: '#ffd166',
+        color: "#ffd166",
         metalness: 1,
         roughness: 0.4,
         clearcoat: 1,
@@ -57,7 +57,7 @@ function CardMesh({ onMeshLoaded }) {
   useEffect(() => {
     const textureLoader = new THREE.TextureLoader();
     textureLoader.load(
-      '/assets/abstract.png',
+      "/assets/abstract.png",
       (texture) => {
         setLogoTexture(texture);
         if (onMeshLoaded) {
@@ -66,17 +66,18 @@ function CardMesh({ onMeshLoaded }) {
       },
       undefined,
       (error) => {
-        console.error('Error loading texture:', error);
+        console.error("Error loading texture:", error);
         setTextureError(true);
         if (onMeshLoaded) {
           onMeshLoaded();
         }
-      }
+      },
     );
   }, [onMeshLoaded]);
 
   useFrame(({ clock }) => {
-    if (ref.current) ref.current.rotation.z = Math.sin(clock.elapsedTime * 0.3) * 0.025;
+    if (ref.current)
+      ref.current.rotation.z = Math.sin(clock.elapsedTime * 0.3) * 0.025;
   });
 
   return (
@@ -86,7 +87,12 @@ function CardMesh({ onMeshLoaded }) {
       {logoTexture && (
         <mesh position={[0, 1.6, 0.05]}>
           <planeGeometry args={[2.58, 1]} />
-          <meshPhysicalMaterial map={logoTexture} metalness={0.3} roughness={0.7} transparent />
+          <meshPhysicalMaterial
+            map={logoTexture}
+            metalness={0.3}
+            roughness={0.7}
+            transparent
+          />
         </mesh>
       )}
 
@@ -124,7 +130,11 @@ function CardMesh({ onMeshLoaded }) {
           rotation={[0, 0, 0]}
         >
           CHARITRA ARORA
-          <meshPhysicalMaterial attach="material" color="#ffffff" roughness={1} />
+          <meshPhysicalMaterial
+            attach="material"
+            color="#ffffff"
+            roughness={1}
+          />
         </Text3D>
         <Text3D
           font="https://threejs.org/examples/fonts/helvetiker_regular.typeface.json"
@@ -134,7 +144,11 @@ function CardMesh({ onMeshLoaded }) {
           rotation={[0, 0, 0]}
         >
           SOFTWARE DEVELOPER
-          <meshPhysicalMaterial attach="material" color="#ffffff" roughness={1} />
+          <meshPhysicalMaterial
+            attach="material"
+            color="#ffffff"
+            roughness={1}
+          />
         </Text3D>
         <Text3D
           font="https://threejs.org/examples/fonts/helvetiker_regular.typeface.json"
@@ -144,7 +158,11 @@ function CardMesh({ onMeshLoaded }) {
           rotation={[0, 0, 0]}
         >
           +91 810 311 8540
-          <meshPhysicalMaterial attach="material" color="#ffffff" roughness={1} />
+          <meshPhysicalMaterial
+            attach="material"
+            color="#ffffff"
+            roughness={1}
+          />
         </Text3D>
         <Text3D
           font="https://threejs.org/examples/fonts/helvetiker_regular.typeface.json"
@@ -154,7 +172,11 @@ function CardMesh({ onMeshLoaded }) {
           rotation={[0, 0, 0]}
         >
           charitraarora@gmail.com
-          <meshPhysicalMaterial attach="material" color="#ffffff" roughness={1} />
+          <meshPhysicalMaterial
+            attach="material"
+            color="#ffffff"
+            roughness={1}
+          />
         </Text3D>
       </React.Suspense>
     </group>
@@ -175,6 +197,11 @@ function Lights() {
       />
       <directionalLight
         color="#ffffff"
+        position={[-5, 4, 23]}
+        intensity={0.2}
+      />
+      <directionalLight
+        color="#ffffff"
         position={[8, -6, 23]}
         intensity={0.2}
       />
@@ -184,7 +211,25 @@ function Lights() {
 
 export default function CardShowcase({ onLoaded }) {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [cameraSettings, setCameraSettings] = useState({
+    position: [0, 0, 7],
+    fov: 40,
+  });
   const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const isMobile = window.innerWidth < 768;
+      setCameraSettings({
+        position: [0, 0, isMobile ? 9 : 7],
+        fov: isMobile ? 50 : 40,
+      });
+    };
+
+    handleResize(); // Set initial values
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleMeshLoaded = React.useCallback(() => {
     setIsLoaded(true);
@@ -193,35 +238,26 @@ export default function CardShowcase({ onLoaded }) {
     }
   }, [onLoaded]);
 
-  // Add window resize listener to handle responsive adjustments
-  useEffect(() => {
-    const handleResize = () => {
-      // Force canvas to re-render when window is resized
-      if (canvasRef.current) {
-        const canvas = canvasRef.current.querySelector('canvas');
-        if (canvas) {
-          canvas.style.width = '100%';
-          canvas.style.height = '100%';
-        }
-      }
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
   return (
-    <div ref={canvasRef} style={{ width: '100%', height: '100vh', position: 'relative' }}>
+    <div
+      ref={canvasRef}
+      style={{
+        width: "100%",
+        height: "100vh",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
       <Canvas
         style={{
           width: "100%",
           height: "100%",
-          background: 'transparent',
+          background: "transparent",
           opacity: isLoaded ? 1 : 0,
-          transition: 'opacity 0.5s ease'
+          transition: "opacity 0.5s ease",
         }}
         shadows
-        camera={{ position: [0, 0, 7], fov: 40 }}
+        camera={cameraSettings}
       >
         <CardMesh onMeshLoaded={handleMeshLoaded} />
         <Lights />
@@ -230,8 +266,10 @@ export default function CardShowcase({ onLoaded }) {
           enableZoom={false}
           autoRotate={true}
           autoRotateSpeed={0.15}
+          minPolarAngle={Math.PI / 2 - 0.3}
+          maxPolarAngle={Math.PI / 2 + 0.3}
         />
       </Canvas>
     </div>
-  )
-}; 
+  );
+}

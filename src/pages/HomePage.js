@@ -1,16 +1,15 @@
-import React, { Suspense, lazy, useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { Suspense, lazy, useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
-import IntroText from '../components/IntroText';
-import MenuBar from '../components/MenuBar';
-import GlobalBackground from '../components/HaloBackground';
+import IntroText from "../components/IntroText";
+import MenuBar from "../components/MenuBar";
+import GlobalBackground from "../components/HaloBackground";
 
 const CardShowcase = lazy(() =>
-  import('../components/BusinessCardScene')
-    .catch(err => {
-      console.error('Error loading BusinessCardScene:', err);
-      return { default: () => <div>Card loading failed</div> };
-    })
+  import("../components/BusinessCardScene").catch((err) => {
+    console.error("Error loading BusinessCardScene:", err);
+    return { default: () => <div>Card loading failed</div> };
+  }),
 );
 
 function HomePage() {
@@ -35,7 +34,7 @@ function HomePage() {
   }, []);
 
   const handleCardLoaded = () => {
-    console.log('Card loaded completely');
+    console.log("Card loaded completely");
     setCardLoaded(true);
   };
 
@@ -48,13 +47,21 @@ function HomePage() {
     }
   }, [cardLoaded]);
 
-  const isLandscape = typeof window !== 'undefined' && window.matchMedia('(orientation: landscape)').matches;
+  const isLandscape =
+    typeof window !== "undefined" &&
+    window.matchMedia("(orientation: landscape)").matches;
   const cardAnimationVariant = isLandscape
     ? { hidden: { x: 100, opacity: 0 }, visible: { x: 0, opacity: 1 } }
     : { hidden: { y: 100, opacity: 0 }, visible: { y: 0, opacity: 1 } };
 
   return (
-    <>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+      className="home-page"
+    >
       <GlobalBackground activate={activateVanta} />
 
       <div className="wrapper">
@@ -84,24 +91,28 @@ function HomePage() {
               className="card-container"
               style={{ width: "100%", position: "relative" }}
             >
-              <Suspense fallback={
-                <div style={{
-                  height: "100vh",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  color: "#fff"
-                }}>
-                  Loading Card...
-                </div>
-              }>
+              <Suspense
+                fallback={
+                  <div
+                    style={{
+                      height: "100vh",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      color: "#fff",
+                    }}
+                  >
+                    Loading Card...
+                  </div>
+                }
+              >
                 <CardShowcase onLoaded={handleCardLoaded} />
               </Suspense>
             </motion.div>
           )}
         </AnimatePresence>
       </div>
-    </>
+    </motion.div>
   );
 }
 
