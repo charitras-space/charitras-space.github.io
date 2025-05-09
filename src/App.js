@@ -37,7 +37,7 @@ function App() {
   return (
     <>
       {/* The background is rendered outside the animation context */}
-      <GlobalBackground activate={true} />
+      <GlobalBackground activate={false} />
 
       <BrowserRouter>
         <Routes>

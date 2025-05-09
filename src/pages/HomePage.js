@@ -44,7 +44,7 @@ function HomePage() {
     if (cardLoaded) {
       const vantaActivationTimer = setTimeout(() => {
         setActivateVanta(true);
-      }, 200);
+      }, 1200); // Further increased delay
       return () => clearTimeout(vantaActivationTimer);
     }
   }, [cardLoaded]);
@@ -64,11 +64,40 @@ function HomePage() {
       transition={{ duration: 0.5 }}
       className="home-page"
     >
-      <GlobalBackground activate={activateVanta} />
+      {/* Vanta Background container - positioned at the very back */}
+      <div
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          zIndex: -1, // Ensure it's behind everything
+        }}
+      >
+        <GlobalBackground activate={activateVanta} />
+      </div>
+
+      {/* Black cover that fades out to reveal Vanta */}
+      <motion.div
+        className="black-cover"
+        initial={{ opacity: 1 }} // Start fully opaque (black)
+        animate={{ opacity: activateVanta ? 0 : 1 }} // Fade to transparent
+        transition={{ duration: 0.7, ease: "easeInOut" }} // Smooth fade-out
+        style={{
+          position: 'fixed', // Cover the whole screen
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          backgroundColor: 'black',
+          zIndex: 0 // On top of Vanta (-1), but below other UI (default or higher)
+        }}
+      />
 
       <MenuBar /> {/* Moved MenuBar to be a direct child of home-page */}
 
-      <div className="wrapper"> {/* This will now be the main content area below MenuBar */}
+      <div className="wrapper" style={{ position: 'relative', zIndex: 1 }}> {/* This will now be the main content area below MenuBar */}
         <motion.div
           /* layout Removed layout prop from intro-container */
           className="container intro-container"
@@ -113,7 +142,6 @@ function HomePage() {
                       color: "#fff",
                     }}
                   >
-                    Loading Card...
                   </div>
                 }
               >

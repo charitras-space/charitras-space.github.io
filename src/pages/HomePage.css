@@ -23,7 +23,7 @@
     /* position: relative; */ /* Reverted */
     flex-direction: column; /* Default to column for mobile-first */
     align-items: center; /* Center items when stacked */
-    padding-top: 140px; /* Further increased again for more space below MenuBar */
+    padding-top: 100px; /* Further increased again for more space below MenuBar */
     padding-left: 1rem; /* Adjust padding for mobile */
     padding-right: 1rem;
     padding-bottom: 1rem;
@@ -46,7 +46,7 @@
 
 @media (max-width: 480px) {
   .home-page .wrapper {
-    padding-top: 90px; /* Ensure enough space for fixed mobile menu toggle */
+    padding-top: 50px; /* Ensure enough space for fixed mobile menu toggle */
     padding-left: 0.5rem;
     padding-right: 0.5rem;
     padding-bottom: 0.5rem;
