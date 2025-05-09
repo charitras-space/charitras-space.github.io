@@ -12,9 +12,9 @@ export default function ResumePage() {
   return (
     <motion.div
       className="resume-page"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+      initial={{ opacity: 0, x: 100 }} /* Slide in from right */
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -100 }} /* Slide out to left */
       transition={{ duration: 0.5 }}
     >
       <MenuBar />

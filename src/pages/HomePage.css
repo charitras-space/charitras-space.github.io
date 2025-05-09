@@ -1,0 +1,99 @@
+.home-page {
+  /* display: flex; */ /* No longer needed here, .wrapper will be the main flex container */
+  flex-direction: column; /* So MenuBar is on top of wrapper */
+  width: 100vw;
+  min-height: 100vh; /* Ensure it takes at least full viewport height */
+  box-sizing: border-box;
+  overflow: hidden; /* Prevents scrollbars from page transitions or initial animations */
+}
+
+.card-container {
+  flex: 1; /* Takes up available space in the flex row/column */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative; /* Keep for potential absolute children if any */
+  padding: 1rem; /* Add some padding */
+  box-sizing: border-box;
+}
+
+/* Responsive adjustments for HomePage */
+@media (max-width: 768px) {
+  .home-page .wrapper { /* This is the main content area below the fixed MenuBar */
+    flex-direction: column; /* Default to column for mobile-first */
+    align-items: center; /* Center items when stacked */
+    padding-top: 140px; /* Further increased again for more space below MenuBar */
+    padding-left: 1rem; /* Adjust padding for mobile */
+    padding-right: 1rem;
+    padding-bottom: 1rem;
+    gap: 1rem;
+  }
+
+  .home-page .wrapper .intro-container, /* Updated class name */
+  .home-page .wrapper .card-container {
+    flex-basis: auto; /* Allow items to size based on content in column */
+    width: 100%; /* Take full width when stacked */
+    max-width: 600px; /* Optional: constrain width on mobile for very wide text/cards */
+  }
+
+  .home-page .card-container {
+    min-height: 50vh; /* Ensure card area has some minimum height on mobile */
+  }
+}
+
+@media (max-width: 480px) {
+  .home-page .wrapper {
+    padding: 0.5rem;
+    gap: 0.5rem;
+  }
+   .home-page .wrapper .intro-container, /* Updated class name */
+   .home-page .wrapper .card-container {
+    padding: 0.5rem;
+   }
+}
+/* Styles for fixed MenuBar on HomePage */
+.home-page > .topnav { /* Target .topnav that is a direct child of .home-page */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex; /* Ensure flex properties can be applied */
+  justify-content: flex-start; /* Align menu items to the left */
+  align-items: center;
+  /* background: rgba(13, 9, 21, 0.8); */ /* Example background, ensure it's not transparent */
+  /* backdrop-filter: blur(5px); */ /* Optional: for glassmorphism effect */
+  z-index: 1001; /* Ensure it's above other content */
+  padding: 3.5rem 1rem 0.75rem 2rem; /* Increased top and left padding */
+  box-sizing: border-box;
+  /* background: rgba(13, 9, 21, 0.7); */ /* Removed background */
+  /* backdrop-filter: blur(5px); */ /* Removed backdrop-filter */
+  /* MenuBar.css already styles .topnav, these are overrides/additions for fixed positioning */
+}
+
+.intro-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; /* Center text by default, h1 inside is also centered */
+  flex-grow: 1; /* Takes up space on mobile */
+  padding: 1rem;
+  box-sizing: border-box;
+  /* transition: flex-grow 0.7s ease-in-out, width 0.7s ease-in-out; */ /* For animated transition */
+}
+
+/* Desktop layout for wrapper content */
+@media (min-width: 769px) {
+  .home-page .wrapper {
+    flex-direction: row; /* Side-by-side on desktop */
+    align-items: stretch; /* Stretch items to fill height */
+  }
+  .home-page .wrapper .intro-container {
+    /* align-items: flex-start; */ /* Removed to keep text centered */
+    flex-basis: 50%; /* Fixed proportion on desktop */
+    flex-grow: 0; /* Don't allow it to grow beyond basis on desktop */
+  }
+  .home-page .wrapper .card-container {
+    flex-basis: 50%; /* Fixed proportion on desktop */
+    flex-grow: 0; /* Don't allow it to grow beyond basis on desktop */
+  }
+}

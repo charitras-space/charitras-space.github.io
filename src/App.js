@@ -6,7 +6,7 @@ import {
   Outlet,
   useLocation,
 } from "react-router-dom";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 import "./App.css";
 import HomePage from "./pages/HomePage";
@@ -20,8 +20,14 @@ function Layout() {
 
   return (
     <div className="App">
-      <AnimatePresence mode="wait" initial={false}>
-        <Outlet />
+      <AnimatePresence mode="wait"> {/* Removed initial={false} */}
+        <motion.div
+          key={location.pathname}
+          className="page-outlet-wrapper" // Optional: for styling if needed
+          // Animations are defined on individual page components
+        >
+          <Outlet />
+        </motion.div>
       </AnimatePresence>
     </div>
   );
@@ -31,7 +37,7 @@ function App() {
   return (
     <>
       {/* The background is rendered outside the animation context */}
-      <GlobalBackground />
+      <GlobalBackground activate={true} />
 
       <BrowserRouter>
         <Routes>

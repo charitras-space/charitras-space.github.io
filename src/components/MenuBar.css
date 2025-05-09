@@ -2,6 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%; /* Make topnav span full width */
   gap: 3rem;
   transition: gap 0.4s ease;
   position: relative;
@@ -47,6 +48,7 @@
 
 .topnav.collapsed {
   gap: 0;
+  justify-content: flex-start; /* Align back button to the left */
 }
 
 .topnav.collapsed .menu-item:not(.back-btn) {

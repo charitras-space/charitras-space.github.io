@@ -196,15 +196,66 @@
     padding: 1rem;
   }
 
+  .resume-content {
+    padding-top: 2rem; /* Reduced from 4rem */
+  }
+
   .resume-paper {
-    padding: 1.5rem;
+    padding: 1.25rem; /* Slightly reduced */
   }
 
   .resume-header h1 {
     font-size: 2rem;
   }
 
+  .resume-header h2 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+
+  .download-button {
+    font-size: 0.9rem;
+    padding: 0.7rem 1.5rem;
+  }
+
+  .resume-section {
+    margin-bottom: 2rem;
+  }
+
   .resume-section h3 {
     font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .resume-item-header h4 {
+    font-size: 1.1rem;
+  }
+
+  .resume-date {
+    font-size: 0.8rem;
+  }
+
+  .resume-item h5 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .resume-item li {
+    font-size: 0.9rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .skill-category h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .skill-list li {
+    font-size: 0.9rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .contact-item {
+    font-size: 0.9rem;
   }
 }

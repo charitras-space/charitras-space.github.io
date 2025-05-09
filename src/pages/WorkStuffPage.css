@@ -171,11 +171,61 @@
     padding: 1rem;
   }
 
+  .work-content {
+    padding-top: 2rem; /* Reduced from 4rem */
+  }
+
   .work-title {
     font-size: 2rem;
   }
 
   .experience-card {
+    padding: 1.25rem; /* Slightly reduced */
+  }
+
+  .card-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .period {
+    font-size: 0.9rem;
+  }
+
+  .experience-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .experience-card p {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+
+  .tech-tag {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.6rem;
+  }
+
+  .skills-section {
     padding: 1.5rem;
+  }
+
+  .skills-section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .skill-category h3 {
+    font-size: 1.2rem;
+  }
+
+  .skill-category li {
+    font-size: 0.9rem;
+    margin-bottom: 0.6rem;
+    padding-left: 1.2rem;
+  }
+
+  .skill-category li::before {
+    font-size: 0.9rem; /* Match li font size */
   }
 }

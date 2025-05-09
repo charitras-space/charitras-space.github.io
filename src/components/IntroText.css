@@ -30,7 +30,7 @@ svg[height='0'] {
 }
 
 h1 {
-  padding-top: 5vh;
+  /* padding-top: 5vh; */ /* Removed to rely on flex centering from parent container */
   color: white;
   text-align: center;
   font: 800 clamp(.875em, 7.25vw, 5em) arial black, sans-serif;
@@ -44,28 +44,7 @@ h1 {
 }
 
 /* --- axis switch, no pixel break-points --- */
-@media (orientation: portrait) {
-
-  /* phone held upright              */
-  .wrapper {
-    flex-direction: column;
-  }
-
-  /* main axis vertical              */
-}
-
-@media (orientation: landscape) {
-
-  /* tablet / desktop screen         */
-  .wrapper {
-    flex-direction: row;
-  }
-
-  /* main axis horizontal            */
-  .container {
-    width: 50%;
-    height: 100%;
-  }
-
-  /* half width, full height     */
-}
+/*
+  Removed orientation-based media queries for .wrapper and .container
+  as HomePage layout is now handled by src/pages/HomePage.css and src/App.css
+*/

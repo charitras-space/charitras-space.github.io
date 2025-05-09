@@ -1,5 +1,6 @@
 import React, { Suspense, lazy, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import "./HomePage.css";
 
 import IntroText from "../components/IntroText";
 import MenuBar from "../components/MenuBar";
@@ -18,18 +19,19 @@ function HomePage() {
   const [cardLoaded, setCardLoaded] = useState(false);
   const [activateVanta, setActivateVanta] = useState(false);
 
-  useEffect(() => {
-    const introTimer = setTimeout(() => {
+  useEffect(() => { // Added useEffect wrapper here
+    const mainContentTimer = setTimeout(() => {
       setIntroVisible(true);
-    }, 300);
-
-    const cardTimer = setTimeout(() => {
       setCardVisible(true);
-    }, 1300);
+    }, 1300); // Both become visible at the same time, or adjust introSlightly later if needed
+
+    // const cardTimer = setTimeout(() => { // Original cardTimer, now combined
+    //   setCardVisible(true);
+    // }, 1300);
 
     return () => {
-      clearTimeout(introTimer);
-      clearTimeout(cardTimer);
+      clearTimeout(mainContentTimer);
+      // clearTimeout(cardTimer);
     };
   }, []);
 
@@ -64,26 +66,35 @@ function HomePage() {
     >
       <GlobalBackground activate={activateVanta} />
 
-      <div className="wrapper">
-        <div className="container">
-          <MenuBar />
+      <MenuBar /> {/* Moved MenuBar to be a direct child of home-page */}
 
-          <AnimatePresence>
+      <div className="wrapper"> {/* This will now be the main content area below MenuBar */}
+        <motion.div
+          /* layout Removed layout prop from intro-container */
+          className="container intro-container"
+          // CSS will dictate its size (e.g., flex-basis: 50% on desktop).
+          // When card-container appears, intro-container will snap to its new size.
+          // transition={{ duration: 0.7, ease: "easeInOut" }} // Removed as no explicit animate/layout props
+        >
+          {/* <AnimatePresence> Removed AnimatePresence here */}
             {introVisible && (
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
+                /* layout  Removed layout prop from here to simplify animation */
+                initial={{ opacity: 0, y: 20 }} /* Added y for slide-up effect */
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
+                transition={{ duration: 1.2, ease: "easeInOut" }}
+                className="intro-text-wrapper"
               >
                 <IntroText />
               </motion.div>
             )}
-          </AnimatePresence>
-        </div>
+          {/* </AnimatePresence> */}
+        </motion.div>
 
         <AnimatePresence>
           {cardVisible && (
             <motion.div
+              layout /* Add layout prop for smooth animation of size/position changes */
               initial="hidden"
               animate="visible"
               variants={cardAnimationVariant}
