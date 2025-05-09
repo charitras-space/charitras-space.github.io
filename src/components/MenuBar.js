@@ -94,38 +94,50 @@ export default function MenuBar() {
             animate="visible"
             exit="exit"
           >
-            <motion.div variants={itemVariants} style={{ width: "100%" }}>
+            <motion.div variants={itemVariants}>
               <MenuButton
                 className="menu-item"
                 to="/"
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  navigate("/");
+                }}
               >
                 HOME
               </MenuButton>
             </motion.div>
-            <motion.div variants={itemVariants} style={{ width: "100%" }}>
+            <motion.div variants={itemVariants}>
               <MenuButton
                 className="menu-item cool"
                 to="/cool"
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  navigate("/cool");
+                }}
               >
                 COOL STUFF
               </MenuButton>
             </motion.div>
-            <motion.div variants={itemVariants} style={{ width: "100%" }}>
+            <motion.div variants={itemVariants}>
               <MenuButton
                 className="menu-item work"
                 to="/work"
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  navigate("/work");
+                }}
               >
                 WORK STUFF
               </MenuButton>
             </motion.div>
-            <motion.div variants={itemVariants} style={{ width: "100%" }}>
+            <motion.div variants={itemVariants}>
               <MenuButton
                 className="menu-item resume"
                 to="/resume"
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  navigate("/resume");
+                }}
               >
                 GET RESUME
               </MenuButton>
