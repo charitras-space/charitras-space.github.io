@@ -31,6 +31,7 @@ svg[height='0'] {
 
 h1 {
   /* padding-top: 5vh; */ /* Removed to rely on flex centering from parent container */
+  padding-left: 30px;
   color: white;
   text-align: center;
   font: 800 clamp(.875em, 7.25vw, 5em) arial black, sans-serif;

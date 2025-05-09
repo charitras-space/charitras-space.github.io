@@ -7,7 +7,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start; /* Align title to top */
   align-items: stretch; /* Allow children to fill width */
   padding: 2rem;
   box-sizing: border-box;
@@ -211,8 +211,8 @@
 
 @media (min-width: 769px) {
   .glassmorphic-carousel-container {
-    height: 70vh; /* Explicit height for desktop */
-    flex-grow: 0; /* No longer need to grow if explicit height is set */
+    /* height: 80vh; */ /* Removed to allow flex-grow to determine height */
+    flex-grow: 1; /* Allow container to fill remaining vertical space */
   }
 }
 
