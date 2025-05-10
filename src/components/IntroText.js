@@ -19,10 +19,11 @@ const IntroText = () => {
           <span id='coolText'>
             <TypeAnimation
               sequence={[
+                100,
                 'boring',
-                3000,
+                2000,
                 'tedious',
-                3000,
+                2000,
                 'kinda fun?',
                 3000,
               ]}

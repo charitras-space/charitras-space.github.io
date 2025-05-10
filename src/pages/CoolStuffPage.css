@@ -3,11 +3,15 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center; /* To center carousel if it's narrower than page */
-  justify-content: flex-start; /* Align content to the top */
-  padding: 1rem; /* Add some padding around the page content */
+  align-items: center;
+  /* To center carousel if it's narrower than page */
+  justify-content: flex-start;
+  /* Align content to the top */
+  padding: 1rem;
+  /* Add some padding around the page content */
   box-sizing: border-box;
 }
+
 /* Removed conflicting .carousel-wrapper styles,
    as GlassmorphicCarousel.css should manage its own root element. */
 .carousel-viewport {
@@ -22,6 +26,17 @@
   display: flex;
   gap: 1rem;
   margin: 0 auto;
+}
+
+.title {
+  padding-top: 20px;
+  font-size: 2rem;
+  text-align: center;
+  background: linear-gradient(90deg, #ff5ef7, #02f5ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 10px rgba(255, 94, 247, 0.5));
 }
 
 .carousel-card {

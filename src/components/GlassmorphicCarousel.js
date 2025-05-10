@@ -14,20 +14,20 @@ const GlassmorphicCarousel = () => {
   const slides = [
     {
       id: 1,
+      title: "!React Dashboard",
+      content:
+        "A lightweight alternative to React that performs routing, state management and component nesting in just 69 lines of code. Built for performance-critical applications where bundle size matters.",
+      image: "/assets/notreact.png",
+      link: "https://github.com/charitras-space/NotReact/",
+    },
+    {
+      id: 2,
       title: "TempoLabs AI",
       content:
         "A revolutionary AI-powered web application that allows users to edit React codebases visually. Features include a canvas-based UI editor, real-time code synchronization, and an advanced AI agent with QA capabilities.",
       image:
         "https://images.unsplash.com/photo-1633356122102-3fe601e05bd2?w=800&q=80",
       link: "https://tempo.new",
-    },
-    {
-      id: 2,
-      title: "!React Dashboard",
-      content:
-        "A lightweight alternative to React that performs routing, state management and component nesting in just 69 lines of code. Built for performance-critical applications where bundle size matters.",
-      image: "/assets/notreact.png",
-      link: "https://github.com/notreact",
     },
     {
       id: 3,
@@ -68,16 +68,7 @@ const GlassmorphicCarousel = () => {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <MenuBar />
 
-      <motion.h1
-        className="projects-title"
-        initial={{ y: -50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6 }}
-      >
-        Featured Projects
-      </motion.h1>
 
       {/* Glassmorphic carousel container */}
       <div className="glassmorphic-carousel-container">

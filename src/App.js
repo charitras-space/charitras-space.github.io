@@ -14,6 +14,7 @@ import CoolStuffPage from "./pages/CoolStuffPage";
 import WorkStuffPage from "./pages/WorkStuffPage";
 import ResumePage from "./pages/ResumePage";
 import GlobalBackground from "./components/HaloBackground";
+import { VantaProvider } from "./contexts/VantaContext";
 
 function Layout() {
   const location = useLocation();
@@ -35,9 +36,9 @@ function Layout() {
 
 function App() {
   return (
-    <>
+    <VantaProvider>
       {/* The background is rendered outside the animation context */}
-      <GlobalBackground activate={false} />
+      <GlobalBackground />
 
       <BrowserRouter>
         <Routes>
@@ -51,7 +52,7 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
-    </>
+    </VantaProvider>
   );
 }
 

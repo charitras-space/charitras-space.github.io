@@ -46,10 +46,9 @@
 
 @media (max-width: 480px) {
   .home-page .wrapper {
-    padding-top: 50px; /* Ensure enough space for fixed mobile menu toggle */
+    padding-top:70px; /* Ensure enough space for fixed mobile menu toggle */
     padding-left: 0.5rem;
     padding-right: 0.5rem;
-    padding-bottom: 0.5rem;
     gap: 0.5rem;
   }
    .home-page .wrapper .intro-container, /* Updated class name */

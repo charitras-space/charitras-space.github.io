@@ -1,10 +1,11 @@
-import React, { Suspense, lazy, useState, useEffect } from "react";
+import React, { Suspense, lazy, useState, useEffect, useContext } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import "./HomePage.css";
 
 import IntroText from "../components/IntroText";
 import MenuBar from "../components/MenuBar";
-import GlobalBackground from "../components/HaloBackground";
+// GlobalBackground is now handled globally via context
+import { useVanta } from "../contexts/VantaContext";
 
 const CardShowcase = lazy(() =>
   import("../components/BusinessCardScene").catch((err) => {
@@ -17,23 +18,25 @@ function HomePage() {
   const [introVisible, setIntroVisible] = useState(false);
   const [cardVisible, setCardVisible] = useState(false);
   const [cardLoaded, setCardLoaded] = useState(false);
-  const [activateVanta, setActivateVanta] = useState(false);
+  // Removed activateVanta state, will use context
 
-  useEffect(() => { // Added useEffect wrapper here
+  const { setIsHomePageActive, setVantaVisibleForHome } = useVanta();
+
+  useEffect(() => {
+    setIsHomePageActive(true); // Signal that HomePage is active
+    setVantaVisibleForHome(false); // Ensure Vanta is initially off for HomePage sequence
+
     const mainContentTimer = setTimeout(() => {
       setIntroVisible(true);
       setCardVisible(true);
-    }, 1300); // Both become visible at the same time, or adjust introSlightly later if needed
-
-    // const cardTimer = setTimeout(() => { // Original cardTimer, now combined
-    //   setCardVisible(true);
-    // }, 1300);
+    }, 1300);
 
     return () => {
       clearTimeout(mainContentTimer);
-      // clearTimeout(cardTimer);
+      setIsHomePageActive(false); // Reset on unmount
+      setVantaVisibleForHome(true); // Ensure Vanta is on for other pages if navigating away
     };
-  }, []);
+  }, [setIsHomePageActive, setVantaVisibleForHome]);
 
   const handleCardLoaded = () => {
     console.log("Card loaded completely");
@@ -43,11 +46,11 @@ function HomePage() {
   useEffect(() => {
     if (cardLoaded) {
       const vantaActivationTimer = setTimeout(() => {
-        setActivateVanta(true);
-      }, 1200); // Further increased delay
+        setVantaVisibleForHome(true); // Trigger Vanta visibility via context
+      }, 1200); // Delay for Vanta to appear after card
       return () => clearTimeout(vantaActivationTimer);
     }
-  }, [cardLoaded]);
+  }, [cardLoaded, setVantaVisibleForHome]);
 
   const isLandscape =
     typeof window !== "undefined" &&
@@ -64,40 +67,13 @@ function HomePage() {
       transition={{ duration: 0.5 }}
       className="home-page"
     >
-      {/* Vanta Background container - positioned at the very back */}
-      <div
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100vw',
-          height: '100vh',
-          zIndex: -1, // Ensure it's behind everything
-        }}
-      >
-        <GlobalBackground activate={activateVanta} />
-      </div>
+      {/* GlobalBackground and black cover are no longer rendered here */}
+      {/* Their behavior is controlled by the global GlobalBackground via VantaContext */}
 
-      {/* Black cover that fades out to reveal Vanta */}
-      <motion.div
-        className="black-cover"
-        initial={{ opacity: 1 }} // Start fully opaque (black)
-        animate={{ opacity: activateVanta ? 0 : 1 }} // Fade to transparent
-        transition={{ duration: 0.7, ease: "easeInOut" }} // Smooth fade-out
-        style={{
-          position: 'fixed', // Cover the whole screen
-          top: 0,
-          left: 0,
-          width: '100vw',
-          height: '100vh',
-          backgroundColor: 'black',
-          zIndex: 0 // On top of Vanta (-1), but below other UI (default or higher)
-        }}
-      />
+      <MenuBar />
 
-      <MenuBar /> {/* Moved MenuBar to be a direct child of home-page */}
-
-      <div className="wrapper" style={{ position: 'relative', zIndex: 1 }}> {/* This will now be the main content area below MenuBar */}
+      {/* Ensure wrapper still has zIndex if needed for content stacking, though black cover is gone */}
+      <div className="wrapper" style={{ position: 'relative', zIndex: 1 }}>
         <motion.div
           /* layout Removed layout prop from intro-container */
           className="container intro-container"
