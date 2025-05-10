@@ -57,18 +57,29 @@ export default function MenuBar() {
 
       {/* Desktop Navigation */}
       {!isMobile && (
-        <nav className={`topnav ${isHome ? "expanded" : "collapsed"}`}>
+        <motion.nav
+          className={`topnav ${isHome ? "expanded" : "collapsed"}`}
+          variants={menuVariants}
+          initial="hidden"
+          animate="visible"
+        >
           {isHome && (
             <>
-              <MenuButton className="menu-item cool" to="/cool">
-                COOL STUFF
-              </MenuButton>
-              <MenuButton className="menu-item work" to="/work">
-                WORK STUFF
-              </MenuButton>
-              <MenuButton className="menu-item resume" to="/resume">
-                GET RESUME
-              </MenuButton>
+              <motion.div variants={itemVariants}>
+                <MenuButton className="menu-item cool" to="/cool">
+                  COOL STUFF
+                </MenuButton>
+              </motion.div>
+              <motion.div variants={itemVariants}>
+                <MenuButton className="menu-item work" to="/work">
+                  WORK STUFF
+                </MenuButton>
+              </motion.div>
+              <motion.div variants={itemVariants}>
+                <MenuButton className="menu-item resume" to="/resume">
+                  GET RESUME
+                </MenuButton>
+              </motion.div>
             </>
           )}
 
@@ -81,7 +92,7 @@ export default function MenuBar() {
             <div className="glow-button__glow" />
             <div className="glow-button__border" />
           </button>
-        </nav>
+        </motion.nav>
       )}
 
       {/* Mobile Menu */}

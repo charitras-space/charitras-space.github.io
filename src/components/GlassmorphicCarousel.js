@@ -1,14 +1,11 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { IoArrowBack, IoArrowForward } from "react-icons/io5";
 import { motion, AnimatePresence } from "framer-motion";
 import "./GlassmorphicCarousel.css";
 import MenuButton from "./MenuButton";
-import MenuBar from "./MenuBar";
 
 const GlassmorphicCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const navigate = useNavigate();
 
   // Project slides
   const slides = [
@@ -22,9 +19,9 @@ const GlassmorphicCarousel = () => {
     },
     {
       id: 2,
-      title: "TempoLabs AI",
+      title: "Vibe Check",
       content:
-        "A revolutionary AI-powered web application that allows users to edit React codebases visually. Features include a canvas-based UI editor, real-time code synchronization, and an advanced AI agent with QA capabilities.",
+        "LLMs have rendered a lot of \"Vibe Coders\" as just human feedback loops, telling the LLMs that the button is not aligned with 10px by eye balling it. This is inherently a replaceable job and should be done by AI itself. This project implements agents to do it",
       image:
         "https://images.unsplash.com/photo-1633356122102-3fe601e05bd2?w=800&q=80",
       link: "https://tempo.new",
