@@ -2,7 +2,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%; /* Make topnav span full width */
+  width: 100%;
+  /* Make topnav span full width */
   gap: 3rem;
   transition: gap 0.4s ease;
   position: relative;
@@ -47,8 +48,9 @@
 }
 
 .topnav.collapsed {
-  gap: 0;
-  justify-content: flex-start; /* Align back button to the left */
+  gap: 1.5rem;
+  justify-content: flex-start;
+  /* Align back button to the left */
 }
 
 .topnav.collapsed .menu-item:not(.back-btn) {
@@ -85,7 +87,8 @@
   align-items: center;
   justify-content: center;
   color: white;
-  z-index: 9999; /* Increased z-index */
+  z-index: 9999;
+  /* Increased z-index */
   cursor: pointer;
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
@@ -104,7 +107,8 @@
   align-items: center;
   justify-content: center;
   gap: 2rem;
-  z-index: 9998; /* Increased z-index */
+  z-index: 9998;
+  /* Increased z-index */
 }
 
 .mobile-menu .menu-item {
@@ -129,11 +133,9 @@ button::after {
   content: "";
   width: 100%;
   height: 100%;
-  background-image: radial-gradient(
-    circle farthest-corner at 10% 20%,
-    rgba(255, 94, 247, 1) 17.8%,
-    rgba(2, 245, 255, 1) 100.2%
-  );
+  background-image: radial-gradient(circle farthest-corner at 10% 20%,
+      rgba(255, 94, 247, 1) 17.8%,
+      rgba(2, 245, 255, 1) 100.2%);
   filter: blur(15px);
   z-index: -1;
   position: absolute;
@@ -143,18 +145,32 @@ button::after {
 
 button:active {
   transform: scale(0.9) rotate(3deg);
-  background: radial-gradient(
-    circle farthest-corner at 10% 20%,
-    rgba(255, 94, 247, 1) 17.8%,
-    rgba(2, 245, 255, 1) 100.2%
-  );
+  background: radial-gradient(circle farthest-corner at 10% 20%,
+      rgba(255, 94, 247, 1) 17.8%,
+      rgba(2, 245, 255, 1) 100.2%);
   transition: 0.5s;
+}
+
+.nav-title {
+  font-size: 2rem;
+  background: linear-gradient(90deg, #ff5ef7, #02f5ff);
+  -webkit-background-clip: text;
+  margin-right: 20px;
+  margin-top: 0;
+  margin-bottom: 0;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 10px rgba(255, 94, 247, 0.5));
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .topnav {
     display: none;
+  }
+
+  .nav-title {
+    font-size: 1.5rem;
   }
 }
 

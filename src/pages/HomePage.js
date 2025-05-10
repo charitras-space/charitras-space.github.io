@@ -89,6 +89,7 @@ function HomePage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1.2, ease: "easeInOut" }}
                 className="intro-text-wrapper"
+                style={{ minHeight: '70px' }} // Prevent layout shift from typing animation
               >
                 <IntroText />
               </motion.div>

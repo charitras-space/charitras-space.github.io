@@ -14,9 +14,9 @@ const IntroText = () => {
         </filter>
       </svg>
       <h1>
-        <div style={{ fontSize: '0.8em' }}>
+        <div style={{ fontSize: '0.8em', minHeight: '2.4em' }}>
           Making portfolios is <br />
-          <span id='coolText'>
+          <span id='coolText' style={{ display: 'inline-block', minHeight: '1.3em', verticalAlign: 'top' }}>
             <TypeAnimation
               sequence={[
                 100,

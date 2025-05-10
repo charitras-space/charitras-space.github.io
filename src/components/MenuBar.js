@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import MenuButton from "./MenuButton";
 import "./MenuBar.css";
 
-export default function MenuBar() {
+export default function MenuBar({ title }) {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const isHome = pathname === "/";
@@ -46,13 +46,24 @@ export default function MenuBar() {
     <>
       {/* Mobile Menu Button */}
       {isMobile && (
-        <button
-          className="mobile-menu-toggle"
-          onClick={toggleMobileMenu}
-          aria-label="Toggle menu"
-        >
-          {isMobileMenuOpen ? <IoClose size={28} /> : <IoMenu size={28} />}
-        </button>
+        <>
+          <motion.h1
+            className="nav-title"
+            variants={itemVariants}
+            paddingRight="20px"
+            initial="hidden"
+            animate="visible"
+          >
+            {title}
+          </motion.h1>
+          <button
+            className="mobile-menu-toggle"
+            onClick={toggleMobileMenu}
+            aria-label="Toggle menu"
+          >
+            {isMobileMenuOpen ? <IoClose size={28} /> : <IoMenu size={28} />}
+          </button>
+        </>
       )}
 
       {/* Desktop Navigation */}
@@ -63,6 +74,16 @@ export default function MenuBar() {
           initial="hidden"
           animate="visible"
         >
+          {isHome && (
+            <motion.h1
+              className="nav-title"
+              variants={itemVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              {title}
+            </motion.h1>
+          )}
           {isHome && (
             <>
               <motion.div variants={itemVariants}>
@@ -83,15 +104,19 @@ export default function MenuBar() {
             </>
           )}
 
-          <button
-            className="glow-button menu-item back-btn"
-            aria-label="Back to home"
-            onClick={() => navigate("/")}
-          >
-            <IoArrowBack size={24} />
-            <div className="glow-button__glow" />
-            <div className="glow-button__border" />
-          </button>
+          <>
+
+            <button
+              className="glow-button menu-item back-btn"
+              aria-label="Back to home"
+              onClick={() => navigate("/")}
+            >
+              <IoArrowBack size={24} />
+              <div className="glow-button__glow" />
+              <div className="glow-button__border" />
+            </button>
+            {title && <h1 className="nav-title">{title}</h1>}
+          </>
         </motion.nav>
       )}
 
