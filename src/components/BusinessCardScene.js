@@ -224,7 +224,7 @@ export default function CardShowcase({ onLoaded }) {
       setIsMobileLayout(isMobile);
       setCameraSettings({
         position: [0, isMobile ? 0.5 : 0, isMobile ? 8 : 7],
-        fov: isMobile ? 50 : 40,
+        fov: 45,
       });
     };
 

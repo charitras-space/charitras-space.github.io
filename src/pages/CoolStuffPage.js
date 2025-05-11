@@ -6,17 +6,15 @@ import MenuBar from "../components/MenuBar";
 
 export default function CoolStuffPage() {
   return (
-    <div >
-      <motion.div
-        className="cool-stuff-page"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <MenuBar title={"Cool Stuff"}/>
-        <GlassmorphicCarousel />
-      </motion.div>
-    </div>
+    <motion.div
+      className="cool-stuff-page"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <MenuBar title={"Cool Stuff"}/>
+      <GlassmorphicCarousel />
+    </motion.div>
   );
 }
