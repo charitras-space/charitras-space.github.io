@@ -6,8 +6,7 @@ import MenuBar from "../components/MenuBar";
 
 export default function CoolStuffPage() {
   return (
-    <div style={{ paddingLeft: "5vw", paddingTop: "5vh" }}>
-      <MenuBar title="Cool Projects" />
+    <div >
       <motion.div
         className="cool-stuff-page"
         initial={{ opacity: 0 }}
@@ -15,6 +14,7 @@ export default function CoolStuffPage() {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.5 }}
       >
+        <MenuBar title={"Cool Stuff"}/>
         <GlassmorphicCarousel />
       </motion.div>
     </div>

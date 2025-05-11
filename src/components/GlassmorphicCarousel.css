@@ -4,18 +4,14 @@
 .carousel-wrapper {
   position: relative;
   width: 100%;
-  /* min-height: 100vh; */
-  /* Removed to allow flex-grow from parent */
   flex-grow: 1;
-  /* Allow wrapper to fill available space in its flex parent */
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  /* Align title to top */
   align-items: stretch;
-  /* Allow children to fill width */
-  padding: 2rem;
+  padding: 2rem; /* Ensure 2rem padding */
   box-sizing: border-box;
+  min-height: 80vh; /* Use min-height to allow growth */
 }
 
 .projects-title {
@@ -32,162 +28,160 @@
 /* Glassmorphic carousel container - responsive sizing */
 .glassmorphic-carousel-container {
   position: relative;
-  width: 95%;
-  /* Default width for all devices */
-  /* max-width: 1200px; */
-  /* Removed for full-width */
-  /* Maximum width for large screens */
-  flex-grow: 1;
-  height: auto;
-  /* Ensure flex-grow determines height */
-  /* Default height */
+  width: 95%; /* Default width */
+  max-width: 1600px; /* Max width for very large screens */
+  margin: 0 auto; /* Center the container */
+  /* REMOVE explicit height and max-height */
+  flex-grow: 1; /* Allow container to grow within wrapper */
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
-  /* Removed as flex-grow fills height */
   align-items: center;
   z-index: 10;
-  /* Higher than HaloBackground's z-index of -1 */
+  /* REMOVE min-height: 70vh; Let content truly dictate height */
 }
 
 /* Glassmorphic effect */
 .glassmorphic-carousel {
   width: 100%;
   flex-grow: 1;
-  /* Allow carousel to take available vertical space */
-  /* height: 80%; */
-  /* Replaced by flex-grow */
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(50px);
-  -webkit-backdrop-filter: blur(50px);
-  /* For Safari */
+  min-height: 0;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
   border-radius: 20px;
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   overflow: hidden;
   position: relative;
+  display: flex;
+  align-items: stretch;
+  gap: 15px;
+  padding: 10px;
 }
 
 /* Carousel slides */
 .carousel-slide {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 15px;
 }
 
-/* Slide content - modified for responsive layout */
+/* Slide content - default to vertical (image on top) */
 .slide-content {
   width: 100%;
   height: 100%;
   display: flex;
-  padding: 30px;
+  flex-direction: column;
+  justify-content: space-between; /* Distribute space */
+  align-items: center;
+  padding: 20px; /* Increased padding a bit */
   box-sizing: border-box;
   color: white;
+  text-align: center;
+  /* overflow-y: auto; Ensure this line is fully removed or remains commented */
+  gap: 15px;
+  height: 100%;
 }
 
-/* Horizontal layout for desktop/landscape */
-@media (orientation: landscape) {
-  .slide-content {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 40px;
-  }
-
-  .slide-content-text {
-    flex: 0 0 40%;
-    /* Text takes 40% */
-    text-align: left;
-  }
-
-  .slide-content-image {
-    flex: 0 0 60%;
-    /* Image takes 60% */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .slide-content h2 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-    background: linear-gradient(90deg, #ff5ef7, #02f5ff);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    display: inline-block;
-  }
-
-  .slide-content p {
-    font-size: 1.25rem;
-    margin-bottom: 2rem;
-    line-height: 1.6;
-  }
-
-  .slide-content img {
-    max-width: 100%;
-    max-height: 65vh;
-    /* Increased max-height */
-    object-fit: contain;
-    /* Ensure image scales nicely */
-    border-radius: 10px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease;
-  }
-
-  .slide-content img:hover {
-    transform: scale(1.03);
-  }
+.slide-content-text {
+  order: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  flex-grow: 1;
+  justify-content: space-around;
+  min-height: 0;
+  padding-bottom: 5px; /* Small padding at the bottom of text content */
 }
 
-/* Vertical layout for mobile/portrait */
-@media (orientation: portrait) {
+.slide-content-image {
+  order: 1;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  flex-shrink: 0; /* Prevent image from shrinking */
+}
+
+.slide-content h2 {
+  font-size: 1.6rem; /* Adjusted base size */
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+  background: linear-gradient(90deg, #ff5ef7, #02f5ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+}
+
+.slide-content p {
+  font-size: 0.85rem; /* Further reduce base paragraph size */
+  margin-bottom: 0.75rem; /* Reduce margin */
+  line-height: 1.4; /* Slightly tighter line height */
+  /* REMOVE max-width: 95%; Let text use available width */
+}
+
+.slide-content img {
+  max-width: 100%;
+  max-height: 40vh; /* Generous base for mobile images */
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s ease;
+}
+
+.slide-content img:hover {
+  transform: scale(1.02);
+}
+
+/* Media queries for adjusting slide content based on available width PER SLIDE */
+/* This is more about the content within a slide, not changing to row layout */
+
+/* When slides are a bit wider (e.g., 2 slides on tablet, or 3 on desktop) */
+@media (min-width: 768px) { /* Corresponds to when 2 or 3 slides might be shown */
   .slide-content {
-    flex-direction: column;
-    text-align: center;
-    justify-content: center;
-    gap: 20px;
     padding: 20px;
+    gap: 15px;
   }
-
-  .slide-content-text {
-    order: 2;
-  }
-
-  .slide-content-image {
-    order: 1;
-  }
-
   .slide-content h2 {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-    background: linear-gradient(90deg, #ff5ef7, #02f5ff);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    display: inline-block;
+    font-size: 1.4rem; /* Further reduce for tablet */
   }
-
   .slide-content p {
-    font-size: 1.1rem;
-    margin-bottom: 1.5rem;
-    line-height: 1.5;
+    font-size: 0.8rem; /* Further reduce for tablet */
   }
-
   .slide-content img {
-    max-width: 100%;
-    max-height: 30vh;
-    border-radius: 10px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    max-height: 45vh; /* Target for tablets */
   }
 }
+
+/* For larger screens where slides are even wider (e.g., 3 slides on a large desktop) */
+/* Or if only 1-2 slides are shown on a very wide screen */
+@media (min-width: 1200px) {
+   /* The .slide-content remains flex-direction: column */
+   /* We just adjust sizes within that column layout */
+  .slide-content h2 {
+    font-size: 1.5rem; /* Further reduce for desktop */
+  }
+  .slide-content p {
+    font-size: 0.85rem; /* Further reduce for desktop */
+  }
+  .slide-content img {
+    max-height: 50vh; /* Target for large screens */
+  }
+}
+
+/* The media query that previously changed to flex-direction: row is removed */
+/* to keep image on top as requested for multi-slide desktop. */
+/* If a specific horizontal layout is needed for single, very wide slides, */
+/* a new, more targeted media query would be required. */
+
 
 /* Navigation buttons and dots */
 .carousel-navigation {
@@ -195,91 +189,110 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 5rem 0;
+  padding: 1rem 0; /* Adjusted padding */
+  margin-top: 10px;
+  flex-shrink: 0; /* Prevent navigation from shrinking */
 }
 
 .carousel-dots {
   display: flex;
   justify-content: center;
-  gap: 10px;
-  padding-left: 20px;
-  padding-right: 20px;
+  gap: 12px; /* Slightly increased gap */
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .carousel-dot {
-  width: 12px;
-  height: 12px;
+  width: 10px; /* Smaller base size */
+  height: 10px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.25);
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .carousel-dot.active {
-  background: rgba(255, 255, 255, 0.9);
-  transform: scale(1.2);
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.8);
+  transform: scale(1.25);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
 }
 
-@media (min-width: 769px) {
-  .glassmorphic-carousel-container {
-    /* height: 80vh; */
-    /* Removed to allow flex-grow to determine height */
-    flex-grow: 1;
-    /* Allow container to fill remaining vertical space */
-  }
-}
-
-/* Additional responsive adjustments */
-@media (max-width: 1200px) {
-  .glassmorphic-carousel-container {
-    width: 85%;
-  }
-
-  .projects-title {
-    font-size: 2.5rem;
-  }
-}
-
-@media (max-width: 992px) {
+/* General responsive adjustments for the container */
+@media (min-width: 768px) {
   .glassmorphic-carousel-container {
     width: 90%;
   }
+  .carousel-navigation {
+    padding: 2rem 0;
+  }
 }
 
-@media (max-width: 768px) {
+@media (min-width: 1200px) {
   .glassmorphic-carousel-container {
-    width: 95%;
-    height: 75vh;
+    width: 85%;
   }
+}
 
+
+/* Specific adjustments for smaller viewports */
+@media (max-width: 767px) {
   .projects-title {
-    font-size: 2rem;
-    margin-top: 3rem;
+    font-size: 2.2rem;
+    margin-bottom: 1.5rem;
+  }
+  .glassmorphic-carousel-container {
+    /* Ensure no height, max-height, or min-height override here */
+  }
+   .carousel-wrapper {
+    padding: 2rem; /* Consistent padding */
   }
 }
 
 @media (max-width: 576px) {
-  .glassmorphic-carousel-container {
-    padding-top: 30px;
-    width: 95%;
-    height: 80vh;
+  .projects-title {
+    font-size: 2rem;
+    margin-top: 1rem; /* Adjusted margin */
+    margin-bottom: 1rem;
   }
-
-
-  .carousel-dot {
-    width: 10px;
-    height: 10px;
-  }
-
   .carousel-wrapper {
     padding: 1rem;
+  }
+  .glassmorphic-carousel-container {
+    width: 95%;
+    padding-top: 3rem;
+    /* Ensure no height, max-height, or min-height override here */
+  }
+  .carousel-navigation {
+    padding: 1rem 0;
+  }
+  .carousel-dot {
+    width: 8px;
+    height: 8px;
+  }
+  .slide-content {
+    padding: 15px;
+    gap: 10px;
+  }
+  .slide-content h2 {
+    font-size: 1.6rem;
+  }
+  .slide-content p {
+    font-size: 0.9rem;
+  }
+  .slide-content img {
+    max-height: 30vh;
   }
 }
 
 @media (max-width: 375px) {
-  .glassmorphic-carousel-container {
-    height: 85vh;
+  .projects-title {
+    font-size: 1.8rem;
+  }
+  .slide-content h2 {
+    font-size: 1.5rem;
+  }
+  .slide-content p {
+    font-size: 0.85rem;
   }
 }

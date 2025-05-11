@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { IoArrowBack, IoArrowForward } from "react-icons/io5";
 import { motion, AnimatePresence } from "framer-motion";
 import "./GlassmorphicCarousel.css";
@@ -6,6 +6,7 @@ import MenuButton from "./MenuButton";
 
 const GlassmorphicCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [slidesToShow, setSlidesToShow] = useState(1);
 
   // Project slides
   const slides = [
@@ -37,25 +38,60 @@ const GlassmorphicCarousel = () => {
     },
   ];
 
-  // Navigate to previous slide
-  const prevSlide = () => {
+  // Determine number of slides to show based on window width
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1200) { // Large screens
+        setSlidesToShow(3);
+      } else if (window.innerWidth >= 768) { // Medium screens
+        setSlidesToShow(2);
+      } else { // Small screens
+        setSlidesToShow(1);
+      }
+    };
+
+    handleResize(); // Set initial value
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const prevSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
-  };
+  }, [slides.length]);
 
-  // Navigate to next slide
-  const nextSlide = () => {
+  const nextSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
-  };
+  }, [slides.length]);
 
-  // Navigate to specific slide
-  const goToSlide = (index) => {
+  const goToSlide = useCallback((index) => {
     setCurrentSlide(index);
-  };
+  }, []);
 
-  // Open project link
   const openProjectLink = (link) => {
     window.open(link, "_blank");
   };
+
+  // Generate the slides to be displayed in the viewport
+  const getVisibleSlides = useCallback(() => {
+    const visible = [];
+    if (!slides || slides.length === 0) return visible;
+
+    const uniqueKeyVisibleSlides = [];
+    for (let i = 0; i < slidesToShow; i++) {
+        const slideIndex = (currentSlide + i) % slides.length;
+        const slideData = slides[slideIndex];
+        if (slideData) {
+            uniqueKeyVisibleSlides.push({
+                ...slideData,
+                viewportKey: `${slideData.id}-instance-${i}`, // Unique key for this instance
+                displayOrder: i
+            });
+        }
+    }
+    return uniqueKeyVisibleSlides;
+  }, [currentSlide, slidesToShow, slides]);
+
+  const visibleSlides = getVisibleSlides();
 
   return (
     <motion.div
@@ -65,51 +101,47 @@ const GlassmorphicCarousel = () => {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
     >
-
-
       {/* Glassmorphic carousel container */}
       <div className="glassmorphic-carousel-container">
         {/* Glassmorphic carousel */}
         <div className="glassmorphic-carousel">
           {/* Carousel slides */}
-          <AnimatePresence mode="wait">
-            {slides.map(
-              (slide, index) =>
-                index === currentSlide && (
-                  <motion.div
-                    key={slide.id}
-                    className="carousel-slide active"
-                    initial={{ opacity: 0, x: 100 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -100 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <div className="slide-content">
-                      <div className="slide-content-text">
-                        <h2>{slide.title}</h2>
-                        <p>{slide.content}</p>
-                        <MenuButton onClick={() => openProjectLink(slide.link)}>
-                          VIEW PROJECT
-                        </MenuButton>
-                      </div>
-                      <div className="slide-content-image">
-                        <img src={slide.image} alt={slide.title} />
-                      </div>
-                    </div>
-                  </motion.div>
-                ),
-            )}
+          <AnimatePresence initial={false}>
+            {visibleSlides.map((slide) => (
+              <motion.div
+                key={slide.viewportKey}
+                className="carousel-slide"
+                initial={{ opacity: 0, x: slide.displayOrder % 2 === 0 ? 30 : -30, scale: 0.98 }}
+                animate={{ opacity: 1, x: 0, scale: 1 }}
+                exit={{ opacity: 0, x: slide.displayOrder % 2 === 0 ? -30 : 30, scale: 0.98 }}
+                transition={{ duration: 0.4 }}
+                style={{
+                  width: `calc(100% / ${slidesToShow})`,
+                }}
+              >
+                <div className="slide-content">
+                  <div className="slide-content-text">
+                    <h2>{slide.title}</h2>
+                    <p>{slide.content}</p>
+                    <MenuButton onClick={() => openProjectLink(slide.link)}>
+                      VIEW PROJECT
+                    </MenuButton>
+                  </div>
+                  <div className="slide-content-image">
+                    <img src={slide.image} alt={slide.title} />
+                  </div>
+                </div>
+              </motion.div>
+            ))}
           </AnimatePresence>
         </div>
 
         {/* Navigation and dots */}
         <div className="carousel-navigation">
-          {/* Previous button with the glow button style */}
           <MenuButton onClick={prevSlide} defaultActive={true}>
             <IoArrowBack size={24} />
           </MenuButton>
 
-          {/* Dot indicators */}
           <div className="carousel-dots">
             {slides.map((_, index) => (
               <button
@@ -121,7 +153,6 @@ const GlassmorphicCarousel = () => {
             ))}
           </div>
 
-          {/* Next button with the glow style */}
           <MenuButton onClick={nextSlide} defaultActive={true}>
             <IoArrowForward size={24} />
           </MenuButton>

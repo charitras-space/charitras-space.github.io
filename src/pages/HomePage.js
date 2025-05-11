@@ -29,7 +29,7 @@ function HomePage() {
     const mainContentTimer = setTimeout(() => {
       setIntroVisible(true);
       setCardVisible(true);
-    }, 1300);
+    }, 700);
 
     return () => {
       clearTimeout(mainContentTimer);
@@ -47,7 +47,7 @@ function HomePage() {
     if (cardLoaded) {
       const vantaActivationTimer = setTimeout(() => {
         setVantaVisibleForHome(true); // Trigger Vanta visibility via context
-      }, 1200); // Delay for Vanta to appear after card
+      }, 700); // Delay for Vanta to appear after card
       return () => clearTimeout(vantaActivationTimer);
     }
   }, [cardLoaded, setVantaVisibleForHome]);
