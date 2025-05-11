@@ -72,6 +72,9 @@
   /* the glow-button padding */
   margin: 0;
 }
+.topnav.collapsed .nav-title {
+  flex-grow: 1; /* Allow title to take available space */
+}
 
 /* Mobile Menu Styles */
 .mobile-menu-toggle {
@@ -155,12 +158,13 @@ button:active {
   font-size: 2rem;
   background: linear-gradient(90deg, #ff5ef7, #02f5ff);
   -webkit-background-clip: text;
-  margin-right: 20px;
   margin-top: 0px;
   margin-bottom: 0;
   background-clip: text;
   color: transparent;
   filter: drop-shadow(0 0 10px rgba(255, 94, 247, 0.5));
+  text-align: center; /* Center text within the title element */
+  padding-right: 50px;
 }
 
 /* Responsive adjustments */
@@ -177,5 +181,11 @@ button:active {
 @media (min-width: 769px) {
   .mobile-menu-toggle {
     display: none;
+  }
+}
+@media (max-width: 576px) {
+  .nav-title {
+    padding-top: 10vi;
+    padding-left: 50px;
   }
 }

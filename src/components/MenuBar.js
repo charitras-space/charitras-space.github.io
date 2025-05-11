@@ -50,7 +50,6 @@ export default function MenuBar({ title }) {
           <motion.h1
             className="nav-title"
             variants={itemVariants}
-            paddingRight="20px"
             initial="hidden"
             animate="visible"
           >
